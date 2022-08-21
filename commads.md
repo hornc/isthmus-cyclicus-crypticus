@@ -9,6 +9,8 @@
 | ᐊ | W | West |
 | ᑌ | D | Down |
 | ᑎ | U | Up |
+|   | L | Left |
+|   | R | Right |
 | ᒋ | t | Turn |
 | ᑊ  | f | Forwards |
 | ᐱ | n | Intercardinal north |

@@ -7,12 +7,12 @@
 | ᐅ | E | East  |
 | ᐁ | S | South |
 | ᐊ | W | West |
-| ᑌ | D | Down |
 | ᑎ | U | Up |
+| ᑌ | D | Down |
 |   | L | Left |
 |   | R | Right |
 | ᒋ | t | Turn |
-| ᑊ  | f | Forwards |
+| ᑊ | f | Forwards |
 | ᐱ | n | Intercardinal north |
 | ᐳ | e | Intercardinal east |
 | ᐯ | s | Intercardinal south |
@@ -27,7 +27,7 @@
 | ౦ | 0 |
 | ୧ | 1 |
 | ౨ | 2 |
-| ୩ | 3|
+| ୩ | 3 |
 | ౪ | 4 |
 | ୫ | 5 |
 | ౬ | 6 |
@@ -65,7 +65,6 @@
 | ⵈ | | exposed |
 | ⵧ | | covered |
 | ⵌ | | grate |
-
 
 | Symbol | Transliteration | Name | Description |
 | ------ | --------------- | ---- | ----------- |

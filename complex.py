@@ -53,12 +53,12 @@ class Agent():
         return self.X, self.Y, self.Z
 
     def say(self, t):
-        print('%s: %s' % (self.name , t))
+        print(f'{self.name}: {t}')
 
 
 class Translator(Agent):
-    TRANSLITERATION = 'NESWDUtfneswudHX'
-    SCALOTI_LOW     = 'ᐃᐅᐁᐊᑌᑎᒋᑊᐱᐳᐯᐸᑭᑯᐦᕽ'
+    TRANSLITERATION = 'NESWUDLRtfneswudHX'
+    SCALOTI_LOW     = 'ᐃᐅᐁᐊᑎᑌᒣᒥᒋᑊᐱᐳᐯᐸᑭᑯᐦᕽ'
     NUMERALS        = '౦୧౨୩౪୫౬୭౮୯'
 
     def __init__(self, *args, **kwargs):
@@ -187,7 +187,7 @@ if __name__ == '__main__':
         i += 1
 
     agx, agy, agz = agent.path()
-    ax.plot(agx, agy, agz, color='m', label='Agent route (%s)' % agent.name)
+    ax.plot(agx, agy, agz, color='m', label=f'Agent route ({agent.name})')
 
     # Guards
     gx, gy, gz = guards.locations()

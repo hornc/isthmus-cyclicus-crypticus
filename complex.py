@@ -78,7 +78,7 @@ class Translator(Agent):
         maxeast = sum([ins.count('E') for ins in self.assignment])
         if guards.pos > (self.pos[1] + maxeast):
             self.say('The guards have overrun the Crypticus. We have to abort the mission. Pull out!')
-            return[True]
+            return [True]
         # return instruction
         absolute = {
                 'N': [-1, 0, 0],

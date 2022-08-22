@@ -19,7 +19,12 @@ Numerals are a combination of [Telegu](https://wikipedia.org/wiki/Telugu_script#
 
 Tifinagh symbols are to be used for adding detail to the narration and level, they do not add any to the computational power, but could be utilised for output encoding.
 
-**Example:** [Hello, World!](examples/hello-world.icc)
+## Command list
+A full command list can be found in [commands.md](commands.md).
+
+
+## Example
+[Hello, World!](examples/hello-world.icc)
 
 ```
 ᐁ
@@ -35,7 +40,7 @@ Tifinagh symbols are to be used for adding detail to the narration and level, th
 ᑎᑎᒋᑊᐅᐅ
 ᑎᑎᑌᐳᑌᐸᐅ
 ᐅᑎᑎᒋᑊ
-ᐦ
+ᕽ
 ```
 
 ## Output

@@ -19,8 +19,8 @@
 | ᐸ | w | Intercardinal west |
 | ᑭ | u | Intercardinal up |
 | ᑯ | d | Intercardinal down |
-|   | H | Hide |
-| ᐦ | X | Target reached | Halt |
+| ᐦ | H | Hide | Pause / NOP |
+| ᕽ | X | Target reached | Halt |
 
 | Symbol | Transliteration | Name | Description |
 | ------ | --------------- | ---- | ----------- |

@@ -57,8 +57,8 @@ class Agent():
 
 
 class Translator(Agent):
-    TRANSLITERATION = 'NESWDUtfneswudX'
-    SCALOTI_LOW     = 'ᐃᐅᐁᐊᑌᑎᒋᑊᐱᐳᐯᐸᑭᑯᐦ'
+    TRANSLITERATION = 'NESWDUtfneswudHX'
+    SCALOTI_LOW     = 'ᐃᐅᐁᐊᑌᑎᒋᑊᐱᐳᐯᐸᑭᑯᐦᕽ'
     NUMERALS        = '౦୧౨୩౪୫౬୭౮୯'
 
     def __init__(self, *args, **kwargs):

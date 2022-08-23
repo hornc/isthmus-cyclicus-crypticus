@@ -37,7 +37,7 @@ class Agent():
         if d == []:
             self.wait = True
         for m in d:
-            if self.wait:
+            if m and self.wait:
                 self.go()
             if self.move(m) is None:
                 return None
@@ -203,7 +203,7 @@ if __name__ == '__main__':
     elif not limit or steps < limit:
         print(f'\nMission failed in {steps} steps.')
     elif limit:
-        print(f'\nMission aborted at limit = {limit} steps.')
+        print(f'....\nMission aborted at limit = {limit} steps.')
 
     # Guards
     gx, gy, gz = guards.locations()

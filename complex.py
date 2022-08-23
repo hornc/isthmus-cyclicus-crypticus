@@ -15,14 +15,13 @@ class Agent():
         self.name = name
         self.assignment = assignment
         self.wait = False
-        self.X = [0]
-        self.Y = [0]
-        self.Z = [0]
-        self.pos = [0, 0, 0]
+        self.pos = [0, 0, -1]
+        self.X, self.Y, self.Z = [[v] for v in self.pos]
         self.face = [0, 1, 0]
 
     def move(self, d):
         if d is True:
+            # Target reached.
             return None
         # d, 3d vector to move
         self.face = d
@@ -131,7 +130,7 @@ class Translator(Agent):
                 m = [0.01, 0, 0]
             elif c == 'X':
                 current_directions.append('You should be able to see a red door to your right with a green frame.')
-                m = True 
+                m = True
             if m:
                 movements.append(m)
                 self.move(m)
@@ -140,12 +139,12 @@ class Translator(Agent):
         return movements
 
     def transliterate(self, t):
-        for i,c in enumerate(self.TRANSLITERATION):
+        for i, c in enumerate(self.TRANSLITERATION):
             t = t.replace(self.SCALOTI_LOW[i], c)
         return t
 
     def to_scaloti(self, t):
-        for i,c in enumerate(self.TRANSLITERATION):
+        for i, c in enumerate(self.TRANSLITERATION):
             t = t.replace(c, self.SCALOTI_LOW[i])
         return t
 
@@ -164,7 +163,7 @@ class Guards():
 
     def locations(self):
         # returns X, Y, Z scatter plot locations
-        return [0] * self.pos, list(range(self.pos)), 0
+        return [0] * self.pos, list(range(self.pos)), 1
 
 
 if __name__ == '__main__':
@@ -172,9 +171,11 @@ if __name__ == '__main__':
     parser.add_argument('instructions', help='Instructions for reaching a goal, written in Scaloti Abbreviated-Low Breen.')
     parser.add_argument('--agent', '-a', help='Name of the active agent.', default='Æon')
     parser.add_argument('--translator', '-t', help='Name of the translating agent.', default='Una')
+    parser.add_argument('--limit', '-l', help='Limit mission to {limit} steps. 0 = no limit.', type=int, default=0)
     args = parser.parse_args()
 
     fname = args.instructions
+    limit = args.limit
 
     with open(fname, 'r') as f:
         code = f.read()
@@ -186,23 +187,28 @@ if __name__ == '__main__':
     translator = Translator(args.translator, assignment=agent.assignment)
 
     guards = Guards()
-    limit = 1000
-    i = 0
-    while agent.listen(translator.translate(guards)) and limit and i < limit:
+    steps = 0
+    while agent.listen(translator.translate(guards)) and (not limit or steps < limit):
         guards.advance()
-        i += 1
+        steps += 1
 
     agx, agy, agz = agent.path()
     ax.plot(agx, agy, agz, color='m', label=f'Agent route ({agent.name})')
+    # Green framed door, if target reached.
+    if not limit or steps < limit:
+        ax.plot(agx[-1], agy[-1], agz[-1], 'gs', fillstyle='none')
+        print(f'\nMission completed successfully in {steps} steps.')
+    else:
+        print(f'\nMission aborted at limit = {limit} steps.')
 
     # Guards
     gx, gy, gz = guards.locations()
-    ax.scatter(gx, gy, zs=gz, zdir='z', c='r', label='Guards')
+    ax.scatter(gx, gy, zs=gz, zdir='z', c='r', alpha=0.8, label='Guards')
 
     # Isthmus
     xs = [-2, -1, 0, 1, 2]
     ys = [0, 0, max(agy + gy), 0, 0]
-    ax.bar(xs, ys, zs=0, zdir='z', color='c', alpha=0.8, label='Isthmus')
+    ax.bar(xs, ys, zs=0, zdir='z', color='c', alpha=0.3, label='Isthmus')
 
     ax.set_xlabel('X')
     ax.set_ylabel('Y')

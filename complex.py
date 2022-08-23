@@ -19,7 +19,7 @@ class Agent():
         self.Y = [0]
         self.Z = [0]
         self.pos = [0, 0, 0]
-        self.face = [0, 0, 0]
+        self.face = [0, 1, 0]
 
     def move(self, d):
         if d is True:

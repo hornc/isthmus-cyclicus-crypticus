@@ -18,10 +18,12 @@ class Agent():
         self.pos = [0, 0, -1]
         self.X, self.Y, self.Z = [[v] for v in self.pos]
         self.face = [0, 1, 0]
+        self.success = False
 
     def move(self, d):
-        if d is True:
-            # Target reached.
+        if isinstance(d, bool):
+            # Target reached, or Crypticus overrun.
+            self.success = d
             return None
         # d, 3d vector to move
         self.face = d
@@ -77,7 +79,7 @@ class Translator(Agent):
         maxeast = sum([ins.count('E') for ins in self.assignment])
         if guards.pos > (self.pos[1] + maxeast):
             self.say('The guards have overrun the Crypticus. We have to abort the mission. Pull out!')
-            return [True]
+            return [False]
 
         absolute = {
                 'N': [-1, 0, 0],
@@ -195,10 +197,12 @@ if __name__ == '__main__':
     agx, agy, agz = agent.path()
     ax.plot(agx, agy, agz, color='m', label=f'Agent route ({agent.name})')
     # Green framed door, if target reached.
-    if not limit or steps < limit:
+    if agent.success:
         ax.plot(agx[-1], agy[-1], agz[-1], 'gs', fillstyle='none')
-        print(f'\nMission completed successfully in {steps} steps.')
-    else:
+        print(f'\nMission successfully completed in {steps} steps.')
+    elif not limit or steps < limit:
+        print(f'\nMission failed in {steps} steps.')
+    elif limit:
         print(f'\nMission aborted at limit = {limit} steps.')
 
     # Guards

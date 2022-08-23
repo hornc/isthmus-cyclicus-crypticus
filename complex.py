@@ -114,6 +114,12 @@ class Translator(Agent):
                     n += 1
                 m = [d[x] / (max(1, n - i - 1)) for x in (0, 1, 2)]
                 current_directions.append(f'Go {final_dir}.')
+            elif c == 'L':
+                current_directions.append('Turn left.')
+                m = [-1 * self.face[1], self.face[0], self.face[2]]
+            elif c == 'R':
+                current_directions.append('Turn right.')
+                m = [self.face[1], -1 * self.face[0], self.face[2]]
             elif c == 't':
                 current_directions.append('Take the next sharp turn to double back the way you came.')
                 m = [-1 * v for v in self.face]

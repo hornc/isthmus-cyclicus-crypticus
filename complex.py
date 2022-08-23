@@ -53,12 +53,12 @@ class Agent():
         return self.X, self.Y, self.Z
 
     def say(self, t):
-        print('%s: %s' % (self.name , t))
+        print(f'{self.name}: {t}')
 
 
 class Translator(Agent):
-    TRANSLITERATION = 'NESWDUtfneswudX'
-    SCALOTI_LOW     = 'ᐃᐅᐁᐊᑌᑎᒋᑊᐱᐳᐯᐸᑭᑯᐦ'
+    TRANSLITERATION = 'NESWUDLRtfneswudHX'
+    SCALOTI_LOW     = 'ᐃᐅᐁᐊᑎᑌᒣᒥᒋᑊᐱᐳᐯᐸᑭᑯᐦᕽ'
     NUMERALS        = '౦୧౨୩౪୫౬୭౮୯'
 
     def __init__(self, *args, **kwargs):
@@ -78,8 +78,8 @@ class Translator(Agent):
         maxeast = sum([ins.count('E') for ins in self.assignment])
         if guards.pos > (self.pos[1] + maxeast):
             self.say('The guards have overrun the Crypticus. We have to abort the mission. Pull out!')
-            return[True]
-        # return instruction
+            return [True]
+
         absolute = {
                 'N': [-1, 0, 0],
                 'S': [1, 0, 0],
@@ -112,8 +112,14 @@ class Translator(Agent):
                     d = [d[x] + mod[x] for x in (0, 1, 2)]
                     final_dir += '-' + directions[instructions[n].upper()]
                     n += 1
-                m = [d[x]/(max(1, n-i-1)) for x in (0, 1, 2)]
-                current_directions.append('Go %s.' % final_dir)
+                m = [d[x] / (max(1, n - i - 1)) for x in (0, 1, 2)]
+                current_directions.append(f'Go {final_dir}.')
+            elif c == 'L':
+                current_directions.append('Turn left.')
+                m = [-1 * self.face[1], self.face[0], self.face[2]]
+            elif c == 'R':
+                current_directions.append('Turn right.')
+                m = [self.face[1], -1 * self.face[0], self.face[2]]
             elif c == 't':
                 current_directions.append('Take the next sharp turn to double back the way you came.')
                 m = [-1 * v for v in self.face]
@@ -187,7 +193,7 @@ if __name__ == '__main__':
         i += 1
 
     agx, agy, agz = agent.path()
-    ax.plot(agx, agy, agz, color='m', label='Agent route (%s)' % agent.name)
+    ax.plot(agx, agy, agz, color='m', label=f'Agent route ({agent.name})')
 
     # Guards
     gx, gy, gz = guards.locations()

@@ -194,16 +194,10 @@ if __name__ == '__main__':
         guards.advance()
         steps += 1
 
+    # Plot result:
+    # Agent
     agx, agy, agz = agent.path()
     ax.plot(agx, agy, agz, color='m', label=f'Agent route ({agent.name})')
-    # Green framed door, if target reached.
-    if agent.success:
-        ax.plot(agx[-1], agy[-1], agz[-1], 'gs', fillstyle='none')
-        print(f'\nMission successfully completed in {steps} steps.')
-    elif not limit or steps < limit:
-        print(f'\nMission failed in {steps} steps.')
-    elif limit:
-        print(f'....\nMission aborted at limit = {limit} steps.')
 
     # Guards
     gx, gy, gz = guards.locations()
@@ -213,6 +207,15 @@ if __name__ == '__main__':
     xs = [-2, -1, 0, 1, 2]
     ys = [0, 0, max(agy + gy), 0, 0]
     ax.bar(xs, ys, zs=0, zdir='z', color='c', alpha=0.3, label='Isthmus')
+
+    # Green framed door, if target reached.
+    if agent.success:
+        ax.plot(agx[-1], agy[-1], agz[-1], 'gs', fillstyle='none', label='Target chamber')
+        print(f'\nMission successfully completed in {steps} steps.')
+    elif not limit or steps < limit:
+        print(f'\nMission failed in {steps} steps.')
+    elif limit:
+        print(f'....\nMission aborted at limit = {limit} steps.')
 
     ax.set_xlabel('X')
     ax.set_ylabel('Y')

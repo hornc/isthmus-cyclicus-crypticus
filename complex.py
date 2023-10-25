@@ -213,6 +213,9 @@ if __name__ == '__main__':
 
     guards = Guards()
     steps = 0
+
+    if limit:
+        agent.say(f"All right, make this an impeccable rush job. Let's keep it to {limit} passages.")
     while agent.listen(translator.translate(guards)) and (not limit or steps < limit):
         guards.advance()
         steps += 1

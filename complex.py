@@ -11,6 +11,12 @@ from mpl_toolkits.mplot3d import Axes3D
 
 
 DEBUG = False
+GO = [
+    'Green light, go.',
+    'Red light, stop.',
+    'Green light, stop.',
+    'Red light, go!'
+]
 
 
 class Agent():
@@ -47,10 +53,7 @@ class Agent():
         return True
 
     def go(self):
-        self.say('''Green light, go.
-  Red light, stop.
-  Green light, stop.
-  Red light, go!''')
+        self.say(f'\n{" " * (len(self.name) + 2)}'.join(GO))
         self.wait = False
 
     def path(self):
@@ -188,7 +191,7 @@ class Guards():
         self.pos = 0
 
     def act(self, s):
-        print(' { ' + s + ' }')
+        print('    { ' + s + ' }')
 
     def advance(self):
         #self.act('The guards advance')

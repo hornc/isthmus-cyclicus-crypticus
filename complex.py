@@ -10,6 +10,9 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
 
+DEBUG = False
+
+
 class Agent():
     def __init__(self, name='Anonymous', assignment=None):
         self.name = name
@@ -87,9 +90,9 @@ class Translator(Agent):
         print(self.transliterate(self.assignment))
         self.assignment = self.transliterate(self.assignment).strip().split('\n')
 
-
     def abs_dir(self, i, instructions):
-        print('DEBUG:', instructions)
+        if DEBUG:
+            print('DEBUG:', i, instructions)
         c = instructions[i]
         d = self.absolute[c]
         n = i + 1
@@ -99,9 +102,9 @@ class Translator(Agent):
             d = [d[x] + mod[x] for x in (0, 1, 2)]
             final_dir += '-' + self.directions[instructions[n].upper()]
             n += 1
+        m = [d[x] / (max(1, n - i - 1)) for x in (0, 1, 2)]
         final_dir = f'Go {final_dir}.'
-        return final_dir, n, d
-
+        return final_dir, m
 
     def translate(self, guards):
         instructions = self.assignment[self.current]
@@ -121,8 +124,7 @@ class Translator(Agent):
             m = None
             c = instructions[i]
             if c in self.absolute.keys():
-                command, n, d = self.abs_dir(i, instructions)
-                m = [d[x] / (max(1, n - i - 1)) for x in (0, 1, 2)]
+                command, m = self.abs_dir(i, instructions)
                 current_directions.append(command)
             elif c == 'L':
                 current_directions.append('Turn left.')
@@ -188,10 +190,12 @@ if __name__ == '__main__':
     parser.add_argument('--agent', '-a', help='Name of the active agent.', default='Æon')
     parser.add_argument('--translator', '-t', help='Name of the translating agent.', default='Una')
     parser.add_argument('--limit', '-l', help='Limit mission to {limit} steps. 0 = no limit.', type=int, default=0)
+    parser.add_argument('--debug', '-d', help='Debug', action='store_true')
     args = parser.parse_args()
 
     fname = args.instructions
     limit = args.limit
+    DEBUG = args.debug
 
     with open(fname, 'r') as f:
         code = f.read()
@@ -225,11 +229,11 @@ if __name__ == '__main__':
     # Green framed door, if target reached.
     if agent.success:
         ax.plot(agx[-1], agy[-1], agz[-1], 'gs', fillstyle='none', label='Target chamber')
-        print(f'\nMission successfully completed in {steps} steps.')
+        print(f'\nMission successfully completed after {steps} passages.')
     elif not limit or steps < limit:
-        print(f'\nMission failed in {steps} steps.')
+        print(f'\nMission failed after {steps} passages.')
     elif limit:
-        print(f'....\nMission aborted at limit = {limit} steps.')
+        print(f'....\nMission aborted at limit = {limit} passages.')
 
     ax.set_xlabel('X')
     ax.set_ylabel('Y')

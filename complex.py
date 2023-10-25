@@ -100,10 +100,15 @@ class Translator(Agent):
         while n < len(instructions) and instructions[n] in ''.join(self.absolute.keys()).lower():
             mod = self.absolute[instructions[n].upper()]
             d = [d[x] + mod[x] for x in (0, 1, 2)]
-            final_dir += '-' + self.directions[instructions[n].upper()]
+            final_dir += f'-{self.directions[instructions[n].upper()]}'
             n += 1
         m = [d[x] / (max(1, n - i - 1)) for x in (0, 1, 2)]
-        final_dir = f'Go {final_dir}.'
+        if 'up-' in final_dir:
+            final_dir = f'Ascend {final_dir}.'.replace('up-', '', 1).replace('up-', 'steeply ', 1).replace('.', 'ward.')
+        elif 'down-' in final_dir:
+            final_dir = f'Descend {final_dir}.'.replace('down-', '', 1).replace('down-', 'steeply ', 1).replace('.', 'ward.')
+        else:
+            final_dir = f'Go {final_dir}.'
         return final_dir, m
 
     def translate(self, guards):
@@ -147,7 +152,7 @@ class Translator(Agent):
                 current_directions.append('Avoid the main concourse.')
                 m = [0.01, 0, 0]
             elif c == 'X':
-                current_directions.append('You should be able to see a red door to your right with a green frame.')
+                current_directions.append('You should be able to see a red door to your right... with a green frame.')
                 m = True
             if m:
                 movements.append(m)

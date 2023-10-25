@@ -16,9 +16,27 @@ direction_tests = [
 ]
 
 
+phrase_tests = [
+   ('Ne', 'Go north-east.'),
+   ('U', 'Go up.'),
+   ('De', 'Descend eastward.'),
+   ('Uw', 'Ascend westward.'),
+   ('Dde', 'Descend steeply eastward.'),
+   ('Uun', 'Ascend steeply northward.'),
+   #('Uuun', 'Ascend very steeply northward.'),
+]
+
 @pytest.mark.parametrize('direction,expect', direction_tests)
 def test_directions(direction, expect):
     t = Translator('test', '')
     msg, vector =  t.abs_dir(0, direction)
     print('RESULT:', msg, vector)
     assert vector == expect
+
+
+@pytest.mark.parametrize('direction,expect', phrase_tests)
+def test_direction_phrases(direction, expect):
+    t = Translator('test', '')
+    msg, vector =  t.abs_dir(0, direction)
+    print('RESULT:', msg, vector)
+    assert msg == expect

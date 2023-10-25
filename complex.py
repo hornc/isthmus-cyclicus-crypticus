@@ -62,6 +62,23 @@ class Translator(Agent):
     SCALOTI_LOW     = 'ᐃᐅᐁᐊᑎᑌᒣᒥᒋᑊᐱᐳᐯᐸᑭᑯᐦᕽ'
     NUMERALS        = '౦୧౨୩౪୫౬୭౮୯'
 
+    absolute = {
+        'N': [-1, 0, 0],
+        'S': [1, 0, 0],
+        'E': [0, 1, 0],
+        'W': [0, -1, 0],
+        'U': [0, 0, 1],
+        'D': [0, 0, -1],
+    }
+    directions = {
+        'N': 'north',
+        'S': 'south',
+        'E': 'east',
+        'W': 'west',
+        'U': 'up',
+        'D': 'down',
+    }
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.current = 0
@@ -69,6 +86,22 @@ class Translator(Agent):
         print('Transliterating:')
         print(self.transliterate(self.assignment))
         self.assignment = self.transliterate(self.assignment).strip().split('\n')
+
+
+    def abs_dir(self, i, instructions):
+        print('DEBUG:', instructions)
+        c = instructions[i]
+        d = self.absolute[c]
+        n = i + 1
+        final_dir = self.directions[c]
+        while n < len(instructions) and instructions[n] in ''.join(self.absolute.keys()).lower():
+            mod = self.absolute[instructions[n].upper()]
+            d = [d[x] + mod[x] for x in (0, 1, 2)]
+            final_dir += '-' + self.directions[instructions[n].upper()]
+            n += 1
+        final_dir = f'Go {final_dir}.'
+        return final_dir, n, d
+
 
     def translate(self, guards):
         instructions = self.assignment[self.current]
@@ -81,40 +114,16 @@ class Translator(Agent):
             self.say('The guards have overrun the Crypticus. We have to abort the mission. Pull out!')
             return [False]
 
-        absolute = {
-                'N': [-1, 0, 0],
-                'S': [1, 0, 0],
-                'E': [0, 1, 0],
-                'W': [0, -1, 0],
-                'U': [0, 0, 1],
-                'D': [0, 0, -1],
-        }
-        directions = {
-                'N': 'north',
-                'S': 'south',
-                'E': 'east',
-                'W': 'west',
-                'U': 'up',
-                'D': 'down',
-        }
-
         i = 0
         movements = []
         current_directions = []
         while i < len(instructions):
             m = None
             c = instructions[i]
-            if c in absolute.keys():
-                d = absolute[c]
-                n = i + 1
-                final_dir = directions[c]
-                while n < len(instructions) and instructions[n] in ''.join(absolute.keys()).lower():
-                    mod = absolute[instructions[n].upper()]
-                    d = [d[x] + mod[x] for x in (0, 1, 2)]
-                    final_dir += '-' + directions[instructions[n].upper()]
-                    n += 1
+            if c in self.absolute.keys():
+                command, n, d = self.abs_dir(i, instructions)
                 m = [d[x] / (max(1, n - i - 1)) for x in (0, 1, 2)]
-                current_directions.append(f'Go {final_dir}.')
+                current_directions.append(command)
             elif c == 'L':
                 current_directions.append('Turn left.')
                 m = [-1 * self.face[1], self.face[0], self.face[2]]
@@ -122,10 +131,15 @@ class Translator(Agent):
                 current_directions.append('Turn right.')
                 m = [self.face[1], -1 * self.face[0], self.face[2]]
             elif c == 't':
-                current_directions.append('Take the next sharp turn to double back the way you came.')
+                #current_directions.append('Take the next sharp turn to double back the way you came.')
+                #current_directions.append('Take the switchback, reversing your course.')
+                #current_directions.append('Reverse course by taking the switchback.')
+                current_directions.append('Take the switchback.')
                 m = [-1 * v for v in self.face]
             elif c == 'f':
-                current_directions.append('Continue onward.')
+                #current_directions.append('Continue onward.')
+                #current_directions.append('Keep going.')
+                current_directions.append('Press on.')
                 m = self.face
             elif c == 'H':  # hide
                 current_directions.append('Avoid the main concourse.')

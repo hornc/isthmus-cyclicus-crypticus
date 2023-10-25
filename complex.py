@@ -111,11 +111,22 @@ class Translator(Agent):
             final_dir = f'Go {final_dir}.'
         return final_dir, m
 
+    def combine(self, commands):
+        """
+        Combine a series of commands into natural sentences.
+        """
+        # TODO: flesh this out!
+        if self.wait:
+            commands = ["Ok, it's safe to move!"] + commands
+            self.wait = False
+        return ' '.join(commands)
+
     def translate(self, guards):
         instructions = self.assignment[self.current]
         self.current = (self.current + 1) % len(self.assignment)
         if guards.alert(self.path()):
             self.say('Wait...')
+            self.wait = True
             return []
         maxeast = sum([ins.count('E') for ins in self.assignment])
         if guards.pos > (self.pos[1] + maxeast):
@@ -158,7 +169,7 @@ class Translator(Agent):
                 movements.append(m)
                 self.move(m)
             i += 1
-        self.say(' '.join(current_directions))
+        self.say(self.combine(current_directions))
         return movements
 
     def transliterate(self, t):
@@ -176,12 +187,18 @@ class Guards():
     def __init__(self):
         self.pos = 0
 
+    def act(self, s):
+        print(' { ' + s + ' }')
+
     def advance(self):
+        #self.act('The guards advance')
         self.pos += 1
 
     def alert(self, path):
         x, y, z = path
         if len(x) > self.pos:
+            if x[self.pos] == 0:
+                self.act('The guards crossing the isthmus above are on high alert!')
             return x[self.pos] == 0
 
     def locations(self):

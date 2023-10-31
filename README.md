@@ -48,3 +48,32 @@ Output is provided in the form of:
 
 1. An English transcript of the instructions relayed to the active agent by the translator.
 2. A 3D plot of the active agent through a Crypticus Complex, including all the positions occupied by the guards.
+
+### Hello, World! transcript:
+
+(current, rather than final form:)
+
+```
+    { The guards crossing the isthmus above are on high alert! }
+Una: Wait...
+Una: Ok, it's safe to move! Go south.
+Æon: Green light, go.
+     Red light, stop.
+     Green light, stop.
+     Red light, go!
+Una: Go down. Go down. Take the switchback. Go east. Go down. Take the switchback. Go up. Go east.
+Una: Go east. Take the switchback. Go down. Go east. Take the switchback. Go down. Go east. Go east.
+Una: Go up. Go up. Take the switchback. Press on. Go east. Go east.
+Una: Go up. Go up. Take the switchback. Press on. Go east. Go east.
+Una: Ascend westward. Ascend eastward. Descend eastward. Descend westward. Go east. Go east.
+Una: Go east. Ascend steeply up-westward. Press on. Take the switchback. Press on. Ascend steeply eastward. Descend steeply eastward. Ascend steeply eastward. Press on. Take the switchback. Press on. Go east. Go east.
+Una: Ascend westward. Ascend eastward. Descend eastward. Descend westward. Go east. Go east.
+Una: Go up. Go up. Descend east-eastward. Descend west-westward. Descend eastward. Go east.
+Una: Go up. Go up. Take the switchback. Press on. Go east. Go east.
+Una: Go up. Go up. Descend eastward. Descend westward. Go east.
+Una: Go east. Go up. Go up. Take the switchback. Press on.
+Una: You should be able to see a red door to your right... with a green frame.
+
+Mission successfully completed after 13 passages.
+```
+

@@ -49,7 +49,7 @@ Output is provided in the form of:
 1. An English transcript of the instructions relayed to the active agent by the translator.
 2. A 3D plot of the active agent through a Crypticus Complex, including all the positions occupied by the guards.
 
-### Hello, World! transcript:
+### Hello, World! transcript
 
 (current, rather than final form:)
 
@@ -76,4 +76,8 @@ Una: You should be able to see a red door to your right... with a green frame.
 
 Mission successfully completed after 13 passages.
 ```
+
+### Hello, World! graphical plot
+
+![Hello World 3d plot](examples/HelloWorld-output.png)
 
